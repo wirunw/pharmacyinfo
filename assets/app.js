@@ -79,14 +79,18 @@
 
   // ---------- HDC builder ----------
   var sel = $('hdcSel');
-  sel.innerHTML = H.hdc.map(function (p) { return '<option value="' + p.code + '">' + esc(p.name) + ' (' + p.code + ')' + (p.status === 'chk' ? ' · ยังไม่ยืนยัน' : '') + '</option>'; }).join('');
+  var prov = H.hdc.slice(1).sort(function (a, b) { return a.name.localeCompare(b.name, 'th'); });
+  sel.innerHTML = '<option value="center">ระดับประเทศ (center)</option><optgroup label="77 จังหวัด">' +
+    prov.map(function (p) { return '<option value="' + p.code + '">' + esc(p.name) + ' (' + p.code + ')' + (p.status === 'ok' ? ' ✓' : '') + '</option>'; }).join('') + '</optgroup>';
   sel.value = 'pte';
   function hdc() {
-    var code = ($('hdcCode').value.trim().toLowerCase() || sel.value).replace(/[^a-z]/g, '');
+    var typed = $('hdcCode').value.trim();
+    var byName = typed && H.hdc.filter(function (x) { return x.name.indexOf(typed) >= 0; })[0];
+    var code = byName ? byName.code : (typed.toLowerCase() || sel.value).replace(/[^a-z]/g, '');
     var url = 'https://hdc.moph.go.th/' + code + '/public/main';
     $('hdcGo').href = url; $('hdcUrl').textContent = url;
     var p = H.hdc.filter(function (x) { return x.code === code; })[0];
-    $('hdcNote').textContent = p ? (p.note || (p.status === 'ok' ? 'พบการใช้ URL นี้จริง' : p.status === 'sec' ? 'พบจากเว็บ สสจ. แต่ยังไม่ได้เปิดยืนยัน ลองเปิดก่อนสอน' : 'ยังไม่ยืนยันรหัส ลองเปิดก่อนสอน')) : 'รหัสที่พิมพ์เอง ถ้าเปิดไม่ขึ้น ลองตรวจรหัสจังหวัดอีกครั้ง';
+    $('hdcNote').textContent = p ? (p.note || (p.status === 'ok' ? 'พบการใช้ URL นี้จริง' : p.status === 'sec' ? 'พบจากเว็บ สสจ. แต่ยังไม่ได้เปิดยืนยัน ลองเปิดก่อนสอน' : 'รหัสตามอักษรย่อมาตรฐานของจังหวัด ยังไม่ได้เปิดทดสอบ ลองเปิดก่อนสอน')) : 'รหัสที่พิมพ์เอง ถ้าเปิดไม่ขึ้น ลองตรวจรหัสจังหวัดอีกครั้ง';
   }
   sel.addEventListener('change', function () { $('hdcCode').value = ''; hdc(); });
   $('hdcCode').addEventListener('input', hdc);

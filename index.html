@@ -82,10 +82,10 @@
 
   <div class="tool">
     <h2>สร้างลิงก์ HDC รายจังหวัด</h2>
-    <p class="sub">HDC ใช้รูปแบบ <code>hdc.moph.go.th/<b>รหัสจังหวัด</b>/public/main</code> เลือกจังหวัดหรือพิมพ์รหัส 3 ตัวอักษรเอง</p>
+    <p class="sub">HDC ใช้รูปแบบ <code>hdc.moph.go.th/<b>รหัสจังหวัด</b>/public/main</code> โดยรหัสคืออักษรย่อโรมัน 3 ตัวของจังหวัด เลือกจาก 77 จังหวัด หรือพิมพ์ชื่อจังหวัดหรือรหัสเอง เครื่องหมาย ✓ คือรหัสที่พบการใช้งานจริงแล้ว</p>
     <div class="row">
       <label class="fld"><span>จังหวัด</span><select id="hdcSel"></select></label>
-      <label class="fld"><span>หรือพิมพ์รหัส</span><input id="hdcCode" maxlength="10" placeholder="เช่น pte" autocomplete="off"></label>
+      <label class="fld"><span>หรือพิมพ์ชื่อ/รหัส</span><input id="hdcCode" maxlength="20" placeholder="เช่น ปทุม หรือ pte" autocomplete="off"></label>
       <a class="btn" id="hdcGo" target="_blank" rel="noopener">เปิด HDC</a>
     </div>
     <p class="mono" id="hdcUrl"></p>
