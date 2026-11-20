@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pharmacy Info Hub</title>
-<meta name="description" content="แหล่งข้อมูลจริงสำหรับวิเคราะห์กลยุทธ์ร้านยาชุมชนไทย ประกอบรายวิชา PHA 473">
+<meta name="description" content="แหล่งข้อมูลจริงสำหรับวิเคราะห์กลยุทธ์ร้านยาชุมชนไทย สำหรับการเรียนการสอนและการวางแผนธุรกิจร้านยา">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=20261120b">
+<link rel="stylesheet" href="assets/style.css?v=20261120c">
 <link rel="icon" href="assets/mascot.webp">
 <script>try{var t=localStorage.getItem('pih_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
@@ -15,7 +15,7 @@
 <a class="skip" href="#main">ข้ามไปเนื้อหา</a>
 <header class="top">
   <div class="top-in">
-    <a class="brand" href="#home"><span class="rx">℞</span><span><b>Pharmacy Info Hub</b><small>PHA 473 · กลยุทธ์การแข่งขันของร้านยาชุมชน</small></span></a>
+    <a class="brand" href="#home"><span class="rx">℞</span><span><b>Pharmacy Info Hub</b><small id="brandSub">ข้อมูลจริงเพื่อกลยุทธ์ร้านยาชุมชน</small></span></a>
     <nav class="tabs" aria-label="เมนู">
       <a href="#home" data-tab="home">หน้าแรก</a>
       <a href="#sources" data-tab="sources">คลังข้อมูล</a>
@@ -175,7 +175,7 @@
 <section class="view" id="v-notes" hidden>
   <h1 class="h1">ข้อควรรู้ก่อนใช้ข้อมูล</h1>
   <div class="grid2">
-    <div class="card note-card"><h3>ข้อมูลรัฐนับเฉพาะคนในระบบ</h3><p>HDC นับผู้ใช้บริการภาครัฐ DOPA นับผู้มีชื่อในทะเบียนบ้าน เขตเมืองอย่างรังสิตมีประชากรแฝงและผู้รักษาเอกชนจำนวนมาก ตัวเลขจริงจึงอาจสูงกว่าที่เห็น</p></div>
+    <div class="card note-card"><h3>ข้อมูลรัฐนับเฉพาะคนในระบบ</h3><p>HDC นับผู้ใช้บริการภาครัฐ DOPA นับผู้มีชื่อในทะเบียนบ้าน เขตเมืองและพื้นที่รอบมหาวิทยาลัยมีประชากรแฝงและผู้รักษาเอกชนจำนวนมาก ตัวเลขจริงจึงอาจสูงกว่าที่เห็น</p></div>
     <div class="card note-card"><h3>ข้อมูลธุรกิจมาจากผู้ขาย</h3><p>ตัวเลขตลาดของ Arincare มาจากร้านในเครือข่ายของบริษัทเอง ควรใช้คู่กับวิจัยกรุงศรีหรือแหล่งอื่น</p></div>
     <div class="card note-card"><h3>Google Trends ไม่ใช่จำนวนครั้ง</h3><p>ค่า 0–100 เป็นดัชนีเทียบกันภายในการค้นหาเดียว คำที่ค้นน้อยจะไม่แสดงรายจังหวัด</p></div>
     <div class="card note-card"><h3>เว็บรัฐโหลดช้าเมื่อเข้าพร้อมกัน</h3><p>ใช้ 1 เครื่องต่อกลุ่ม ระบบค้นหาของ อย. ควรเปิดบนคอมพิวเตอร์ เพราะมือถืออาจไม่แสดงรายละเอียด</p></div>
@@ -190,15 +190,21 @@
   <div class="foot-in">
     <img src="assets/mascot.webp" alt="" width="56" height="56">
     <div>
-      <b>ดร.ภก.วิรุณ เวชศิริ</b> · เอกสารประกอบการสอน PHA 473 การบริหารงานเภสัชกรรมชุมชน
+      <b>ดร.ภก.วิรุณ เวชศิริ</b> · <span id="footCourse">สื่อประกอบการสอนด้านการบริหารและกลยุทธ์ร้านยาชุมชน</span>
       <small>ข้อมูลรวบรวม ณ <span data-asof></span> · ลิงก์ทั้งหมดเป็นของหน่วยงานเจ้าของข้อมูล เว็บนี้ไม่ได้เก็บข้อมูลของผู้ใช้</small>
     </div>
   </div>
 </footer>
 
-<script src="assets/data.js?v=20261120b"></script>
-<script src="assets/app.js?v=20261120b"></script>
-<script src="assets/pharmacy.js?v=20261120b"></script>
+<script src="assets/data.js?v=20261120c"></script>
+<script>
+/* ปรับเว็บให้แต่ละคลาสผ่านลิงก์: ?course=ชื่อวิชา&area=จังหวัด  เช่น ?course=PHA%20473%20ม.รังสิต&area=ปทุมธานี */
+(function(){var q=new URLSearchParams(location.search),c=(q.get('course')||'').trim().slice(0,80),a=(q.get('area')||'').trim();
+if(a){var m=(window.HUB&&HUB.hdc||[]).filter(function(x){return x.name===a||x.code===a.toLowerCase()})[0]||(window.HUB&&HUB.hdc||[]).filter(function(x){return a.length>1&&x.name.indexOf(a)>=0})[0];if(m&&m.code!=='center')window.HUB_AREA=m.name}
+if(c){document.getElementById('brandSub').textContent=c;document.getElementById('footCourse').textContent='สื่อประกอบการสอน '+c;document.title='Pharmacy Info Hub · '+c}})();
+</script>
+<script src="assets/app.js?v=20261120c"></script>
+<script src="assets/pharmacy.js?v=20261120c"></script>
 <script>
 (function(){var r=document.documentElement,b=document.getElementById('themeBtn'),i=document.getElementById('themeIco');
 function cur(){var t=r.getAttribute('data-theme');if(t)return t;return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}

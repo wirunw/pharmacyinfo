@@ -83,7 +83,8 @@
   var prov = H.hdc.slice(1).sort(function (a, b) { return a.name.localeCompare(b.name, 'th'); });
   sel.innerHTML = '<option value="center">ระดับประเทศ (center)</option><optgroup label="77 จังหวัด">' +
     prov.map(function (p) { return '<option value="' + p.code + '">' + esc(p.name) + ' (' + p.code + ')' + (p.status === 'ok' ? ' ✓' : '') + '</option>'; }).join('') + '</optgroup>';
-  sel.value = 'pte';
+  var want = window.HUB_AREA ? H.hdc.filter(function (x) { return x.name === window.HUB_AREA; })[0] : null;
+  sel.value = want ? want.code : 'center';
   function hdc() {
     var typed = $('hdcCode').value.trim();
     var byName = typed && H.hdc.filter(function (x) { return x.name.indexOf(typed) >= 0; })[0];

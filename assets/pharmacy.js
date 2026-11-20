@@ -25,7 +25,7 @@
   var D = null, ROWS = [], S = { type: 'ขย1', prov: '', amp: '', q: '', chain: '', limit: 50 }, loading = false;
 
   try { var sv = JSON.parse(store('px_state') || 'null'); if (sv) { S.type = sv.type || S.type; S.prov = sv.prov || ''; S.amp = sv.amp || ''; } } catch (e) {}
-  if (!store('px_state')) S.prov = 'ปทุมธานี';
+  if (window.HUB_AREA) { S.prov = window.HUB_AREA; S.amp = ''; }
 
   function open() {
     if (D || loading) return;
