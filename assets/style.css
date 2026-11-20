@@ -177,3 +177,5 @@ td.open b{color:var(--greentx)}
 .chain-tag{display:inline-block;margin-left:6px;font-size:12px;font-weight:700;color:var(--redtx);background:var(--tint);border-radius:999px;padding:0 8px}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bar .tk .ind{background:#6F86D6}}
 :root[data-theme="dark"] .bar .tk .ind{background:#6F86D6}
+.theme-btn{flex:none;width:38px;height:38px;border-radius:9px;border:1.5px solid rgba(255,255,255,.55);background:transparent;color:#fff;font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.theme-btn:hover{background:rgba(255,255,255,.14)}

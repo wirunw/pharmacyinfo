@@ -7,8 +7,9 @@
 <meta name="description" content="แหล่งข้อมูลจริงสำหรับวิเคราะห์กลยุทธ์ร้านยาชุมชนไทย ประกอบรายวิชา PHA 473">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=20261120">
+<link rel="stylesheet" href="assets/style.css?v=20261120b">
 <link rel="icon" href="assets/mascot.webp">
+<script>try{var t=localStorage.getItem('pih_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body>
 <a class="skip" href="#main">ข้ามไปเนื้อหา</a>
@@ -23,6 +24,7 @@
       <a href="#lab" data-tab="lab">แบบฝึก</a>
       <a href="#notes" data-tab="notes">ข้อควรรู้</a>
     </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="สลับโหมดสว่าง/มืด" title="สลับโหมดสว่าง/มืด"><span aria-hidden="true" id="themeIco">◐</span></button>
   </div>
 </header>
 
@@ -194,8 +196,16 @@
   </div>
 </footer>
 
-<script src="assets/data.js?v=20261120"></script>
-<script src="assets/app.js?v=20261120"></script>
-<script src="assets/pharmacy.js?v=20261120"></script>
+<script src="assets/data.js?v=20261120b"></script>
+<script src="assets/app.js?v=20261120b"></script>
+<script src="assets/pharmacy.js?v=20261120b"></script>
+<script>
+(function(){var r=document.documentElement,b=document.getElementById('themeBtn'),i=document.getElementById('themeIco');
+function cur(){var t=r.getAttribute('data-theme');if(t)return t;return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
+function paint(){var d=cur()==='dark';i.textContent=d?'☀':'☾';b.setAttribute('aria-pressed',d);b.title=d?'เปลี่ยนเป็นโหมดสว่าง':'เปลี่ยนเป็นโหมดมืด'}
+b.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('pih_theme',n)}catch(e){}paint()});
+paint();
+})();
+</script>
 </body>
 </html>
