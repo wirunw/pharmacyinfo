@@ -18,6 +18,7 @@
     <nav class="tabs" aria-label="เมนู">
       <a href="#home" data-tab="home">หน้าแรก</a>
       <a href="#sources" data-tab="sources">คลังข้อมูล</a>
+      <a href="#pharmacy" data-tab="pharmacy">ร้านยาในพื้นที่</a>
       <a href="#tools" data-tab="tools">เครื่องมือ</a>
       <a href="#lab" data-tab="lab">แบบฝึก</a>
       <a href="#notes" data-tab="notes">ข้อควรรู้</a>
@@ -34,7 +35,7 @@
       <p class="eyebrow">ข้อมูลจริง ณ <span data-asof></span></p>
       <h1>เปิดข้อมูลจริง ก่อนตัดสินใจกลยุทธ์ร้านยา</h1>
       <p class="lead">ภาระโรคของพื้นที่ จำนวนคู่แข่ง เสียงของผู้บริโภค และช่องทางดิจิทัล รวบไว้ที่เดียว เพื่อใช้ทำ STP, Design Thinking, MarTech, Omni Channel และ Telepharmacy กับร้านยาจริง</p>
-      <div class="cta"><a class="btn" href="#lab">เริ่มแบบฝึกในห้อง</a><a class="btn ghost" href="#sources">ดูคลังข้อมูลทั้งหมด</a></div>
+      <div class="cta"><a class="btn" href="#pharmacy">ดูร้านยาในพื้นที่</a><a class="btn ghost" href="#lab">แบบฝึกในห้อง</a><a class="btn ghost" href="#sources">คลังข้อมูล</a></div>
     </div>
     <img class="hero-img" src="assets/mascot.webp" alt="อ.หมี">
   </div>
@@ -74,6 +75,32 @@
   </div>
   <p class="count" id="srcCount"></p>
   <div class="cards" id="srcCards"></div>
+</section>
+
+<!-- ===== PHARMACY DASHBOARD ===== -->
+<section class="view" id="v-pharmacy" hidden>
+  <h1 class="h1">ร้านยาในพื้นที่</h1>
+  <p class="sub">ใบอนุญาตขายยาที่ยังมีผล จากชุดข้อมูลเปิดของ อย. เลือกจังหวัดและอำเภอเพื่อดูจำนวนคู่แข่ง สัดส่วนร้านยาเครือข่ายหลายสาขา และรายชื่อร้าน</p>
+  <p class="asof" id="pxAsof">กำลังโหลดข้อมูล…</p>
+  <div class="tool pxf">
+    <div class="chips" id="pxType" role="group" aria-label="ประเภทใบอนุญาต"></div>
+    <div class="row">
+      <label class="fld"><span>จังหวัด</span><select id="pxProv"></select></label>
+      <label class="fld"><span>อำเภอ/เขต</span><select id="pxAmp" disabled></select></label>
+      <label class="fld grow"><span>ค้นชื่อร้าน</span><input id="pxQ" type="search" placeholder="เช่น ฟาสซิโน, เภสัช"></label>
+    </div>
+  </div>
+  <div class="grid4" id="pxKpi"></div>
+  <div class="grid2 px2">
+    <div class="tool"><h2 id="pxBarT">จำนวนร้านตามพื้นที่</h2><p class="sub" style="margin-bottom:8px"><span class="lg ind"></span>ร้านอิสระ <span class="lg chn"></span>ร้านยาเครือข่ายหลายสาขา</p><div id="pxBars" class="bars"></div></div>
+    <div class="tool"><h2>ร้านยาเครือข่ายหลายสาขาในพื้นที่</h2><p class="sub" style="margin-bottom:8px">นับจากชื่อร้าน กดชื่อเครือเพื่อกรองรายชื่อด้านล่าง</p><div id="pxChains" class="bars"></div></div>
+  </div>
+  <div class="tool">
+    <h2 id="pxListT">รายชื่อร้าน</h2>
+    <div class="tw"><table id="pxTbl"><thead><tr><th>ชื่อสถานที่</th><th>ตำบล/แขวง</th><th>อำเภอ/เขต</th><th>จังหวัด</th><th>เลขที่ใบอนุญาต</th></tr></thead><tbody></tbody></table></div>
+    <div class="row" style="margin-top:10px;align-items:center"><button class="btn ghost sm" id="pxMore" type="button">แสดงเพิ่ม</button><button class="btn ghost sm" id="pxCsv" type="button">ดาวน์โหลด CSV ของที่กรองไว้</button><span class="note" id="pxShown" style="margin:0"></span></div>
+  </div>
+  <p class="note">ข้อควรรู้: จับเครือร้านจากชื่อร้าน จึงอาจตกหล่นสาขาที่ตั้งชื่อต่างไป ไฟล์ ขย.1 ใช้ชื่อว่า "เฉพาะกรุงเทพมหานคร" แต่ข้อมูลข้างในครอบคลุมทุกจังหวัด และ อย. ไม่ได้ระบุรอบการปรับปรุงข้อมูล เว็บนี้ดึงข้อมูลอัตโนมัติสัปดาห์ละครั้ง</p>
 </section>
 
 <!-- ===== TOOLS ===== -->
@@ -169,5 +196,6 @@
 
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
+<script src="assets/pharmacy.js"></script>
 </body>
 </html>

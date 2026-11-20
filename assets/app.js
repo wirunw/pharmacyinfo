@@ -19,13 +19,14 @@
   [].forEach.call(document.querySelectorAll('[data-asof]'), function (e) { e.textContent = H.asOf; });
 
   // ---------- routing ----------
-  var views = ['home', 'sources', 'tools', 'lab', 'notes'];
+  var views = ['home', 'sources', 'pharmacy', 'tools', 'lab', 'notes'];
   function route() {
     var h = (location.hash || '#home').slice(1);
     var v = views.indexOf(h) >= 0 ? h : 'home';
     views.forEach(function (x) { $('v-' + x).hidden = x !== v; });
     [].forEach.call(document.querySelectorAll('.tabs a'), function (a) { a.classList.toggle('on', a.dataset.tab === v); });
     window.scrollTo(0, 0);
+    if (v === 'pharmacy' && window.PX) window.PX.open();
   }
   window.addEventListener('hashchange', route);
 
@@ -162,7 +163,7 @@
       var s = st[1] && byId[st[1]];
       var last = k === x.steps.length - 1;
       return (k ? '<div class="arr" aria-hidden="true">→</div>' : '') + '<div class="node' + (last ? ' out' : '') + '"><span class="k">' + (k + 1) + '</span><b>' + esc(st[0]) + '</b>' +
-        (s ? '<small><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.name) + ' ↗</a></small>' : (st[0].indexOf('เครื่องคิดเลข') >= 0 ? '<small><a href="#tools">เปิดเครื่องคิดเลขทำเล</a></small>' : (st[0].indexOf('Telepharmacy') >= 0 && k === 0 ? '<small><a href="#tools">ดูตาราง 15 โปรแกรม</a></small>' : ''))) + '</div>';
+        (s ? '<small><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.name) + ' ↗</a></small>' : (st[0].indexOf('ร้านยาในพื้นที่') >= 0 ? '<small><a href="#pharmacy">เปิดหน้าร้านยาในพื้นที่</a></small>' : (st[0].indexOf('เครื่องคิดเลข') >= 0 ? '<small><a href="#tools">เปิดเครื่องคิดเลขทำเล</a></small>' : (st[0].indexOf('Telepharmacy') >= 0 && k === 0 ? '<small><a href="#tools">ดูตาราง 15 โปรแกรม</a></small>' : '')))) + '</div>';
     }).join('');
     return '<article class="ex"><div class="hd"><span class="n">' + (i + 1) + '</span><h2>' + esc(x.t) + '</h2><div class="meta"><span class="tag">' + esc(H.chapters[x.ch]) + '</span><span class="tag">' + x.min + ' นาที</span></div></div><p class="goal">เป้าหมาย: ' + esc(x.goal) + '</p><div class="flow">' + steps + '</div></article>';
   }).join('');

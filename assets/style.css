@@ -154,3 +154,26 @@ td.open b{color:var(--greentx)}
 .foot-in{max-width:1120px;margin:0 auto;display:flex;gap:12px;align-items:center;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));font-size:14.5px}
 .foot small{display:block;color:var(--muted);font-size:13px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* pharmacy dashboard */
+.asof{font-size:14px;color:var(--muted);margin:-6px 0 12px}
+.pxf{margin-top:0}
+.pxf .chips{margin-bottom:12px}
+.px2{margin-top:14px}
+.px2 .tool{margin-top:0}
+.bars{display:grid;gap:7px}
+.bar{display:grid;grid-template-columns:minmax(90px,150px) 1fr auto;gap:10px;align-items:center;font-size:14.5px;background:none;border:0;padding:2px 0;text-align:left;color:var(--fg);font-family:inherit;cursor:pointer;border-radius:6px}
+.bar:hover .tk{outline:2px solid var(--gold)}
+.bar.on .nm{font-weight:700;color:var(--redtx)}
+.bar .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .tk{display:flex;height:16px;border-radius:4px;overflow:hidden;background:var(--line);min-width:0}
+.bar .tk i{display:block;height:100%}
+.bar .tk .ind{background:var(--navy)}
+.bar .tk .chn{background:var(--red)}
+.bar b{font-variant-numeric:tabular-nums;font-size:14px;min-width:44px;text-align:right}
+.lg{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin:0 4px 0 8px}
+.lg.ind{background:var(--navy)}.lg.chn{background:var(--red)}
+.btn.sm{padding:6px 12px;font-size:14.5px;color:var(--fg)}
+.chain-tag{display:inline-block;margin-left:6px;font-size:12px;font-weight:700;color:var(--redtx);background:var(--tint);border-radius:999px;padding:0 8px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bar .tk .ind{background:#6F86D6}}
+:root[data-theme="dark"] .bar .tk .ind{background:#6F86D6}
