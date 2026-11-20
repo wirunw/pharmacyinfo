@@ -1,0 +1,322 @@
+/* PHA 473 Pharmacy Info Hub — ข้อมูลแหล่งข้อมูล (ตรวจสอบ ณ พฤศจิกายน 2569)
+   status: ok = ยืนยันแล้ว · sec = ยืนยันจากแหล่งรอง ยังไม่ได้เปิดหน้าจริง · chk = ยังไม่ยืนยัน ควรเปิดทดสอบก่อนสอน
+   ch: ใช้กับบทใด  stp · dt · mt · omni · tele · law */
+window.HUB = {
+  asOf: 'พฤศจิกายน 2569',
+
+  categories: {
+    health: { name: 'สุขภาพและประชากร', icon: 'pulse' },
+    comp:   { name: 'ร้านยาและคู่แข่ง', icon: 'pin' },
+    market: { name: 'ตลาดและธุรกิจ', icon: 'chart' },
+    soft:   { name: 'โปรแกรมร้านยา', icon: 'box' },
+    tele:   { name: 'Telepharmacy', icon: 'phone' },
+    social: { name: 'Social listening', icon: 'ear' },
+    law:    { name: 'กฎหมายและประกาศ', icon: 'scale' }
+  },
+
+  chapters: {
+    stp:  'STP',
+    dt:   'Design Thinking',
+    mt:   'MarTech',
+    omni: 'Omni Channel',
+    tele: 'Telepharmacy',
+    law:  'กฎหมาย'
+  },
+
+  sources: [
+    // ---------- สุขภาพและประชากร ----------
+    { id: 'hdc', cat: 'health', core: true, status: 'ok', ch: ['stp', 'dt'],
+      name: 'HDC ศูนย์ข้อมูลสุขภาพ กระทรวงสาธารณสุข', owner: 'สป.สธ.',
+      url: 'https://hdc.moph.go.th/center/public/main',
+      what: 'ผู้ป่วยเบาหวาน ความดัน การควบคุมโรค ผู้สูงอายุ และปิรามิดประชากร ระดับประเทศ จังหวัด อำเภอ',
+      use: 'วัดภาระโรคของพื้นที่ เพื่อแบ่งกลุ่มลูกค้าตามภาวะสุขภาพ',
+      how: ['เปิดระดับประเทศ หรือใช้ตัวสร้างลิงก์จังหวัดในหน้าเครื่องมือ', 'เลือก "รายงานมาตรฐาน" แล้วเลือกกลุ่ม NCD หรือผู้สูงอายุ', 'เลือกปีงบประมาณ แล้วเจาะลงถึงอำเภอ'],
+      access: 'ฟรี ไม่ต้องลงทะเบียน',
+      caveat: 'นับเฉพาะผู้ใช้บริการภาครัฐ ไม่รวมผู้รักษาเอกชน เขตเมืองอย่างรังสิตมีประชากรแฝงมาก' },
+
+    { id: 'dopa', cat: 'health', status: 'ok', ch: ['stp'],
+      name: 'สถิติประชากรทางการทะเบียน (รายอายุ)', owner: 'กรมการปกครอง',
+      url: 'https://stat.bora.dopa.go.th/new_stat/webPage/statByAge.php',
+      what: 'ประชากรรายอายุปีเดี่ยวและเพศ ระดับจังหวัด อำเภอ ตำบล ดาวน์โหลด Excel ได้',
+      use: 'คำนวณสัดส่วนผู้สูงอายุ 60+ ของอำเภอ เพื่อประเมินขนาด segment',
+      how: ['เลือกปีและพื้นที่', 'ดาวน์โหลดตาราง', 'รวมจำนวนผู้มีอายุ 60 ปีขึ้นไป หารด้วยประชากรทั้งหมด'],
+      access: 'ฟรี', caveat: 'นับเฉพาะผู้มีชื่อในทะเบียนบ้าน ไม่รวมประชากรแฝง' },
+
+    { id: 'nso', cat: 'health', status: 'ok', ch: ['stp'],
+      name: 'สำนักงานสถิติแห่งชาติ (NSO)', owner: 'สสช.',
+      url: 'https://www.nso.go.th',
+      what: 'การสำรวจอนามัยและสวัสดิการ พฤติกรรมเมื่อเจ็บป่วย รายได้รายจ่ายครัวเรือน สำมะโนประชากร 2568',
+      use: 'หลักฐานว่าร้านยาเป็นจุดแรกที่คนเลือกเมื่อเจ็บป่วย และใช้ประเมินกำลังซื้อ',
+      access: 'ฟรี (PDF)', caveat: 'การสำรวจอนามัยฯ ฉบับล่าสุดที่พบคือปี 2564' },
+
+    { id: 'kpi', cat: 'health', status: 'ok', ch: ['stp'],
+      name: 'Health KPI กระทรวงสาธารณสุข', owner: 'สป.สธ.',
+      url: 'https://healthkpi.moph.go.th/kpi2/kpi-list/view/?id=169',
+      what: 'นิยามและเป้าหมายตัวชี้วัด เช่น ผู้ป่วยเบาหวานควบคุมน้ำตาลได้',
+      use: 'อ่านตัวเลขจาก HDC ให้ถูกความหมาย', access: 'ฟรี' },
+
+    { id: 'hcode', cat: 'health', status: 'ok', ch: ['omni'],
+      name: 'รหัสหน่วยบริการสุขภาพ (Hcode)', owner: 'สป.สธ.',
+      url: 'https://hcode.moph.go.th',
+      what: 'รายชื่อ ที่อยู่ สถานะของ รพ. รพ.สต. และหน่วยบริการ พร้อม API',
+      use: 'ทำแผนที่หน่วยบริการรอบร้านยา เพื่อออกแบบเส้นทางส่งต่อผู้ป่วย', access: 'ฟรี' },
+
+    { id: 'ddc', cat: 'health', status: 'sec', ch: ['mt'],
+      name: 'กรมควบคุมโรค', owner: 'กรมควบคุมโรค',
+      url: 'https://ddc.moph.go.th',
+      what: 'รายงานโรค NCD และโรคติดต่อตามฤดูกาล',
+      use: 'วางแผนสต๊อกและแคมเปญตามฤดูกาล เช่น ไข้หวัดใหญ่ ไข้เลือดออก', access: 'ฟรี' },
+
+    { id: 'tpmap', cat: 'health', status: 'chk', ch: ['stp'],
+      name: 'TPMAP แผนที่ความยากจน', owner: 'สภาพัฒน์ / NECTEC',
+      url: 'https://www.tpmap.in.th',
+      what: 'ครัวเรือนยากจนรายพื้นที่', use: 'ประเมินความอ่อนไหวต่อราคาของกลุ่มลูกค้า', access: 'ฟรี' },
+
+    { id: 'datagov', cat: 'health', status: 'chk', ch: ['stp'],
+      name: 'ศูนย์กลางข้อมูลเปิดภาครัฐ (data.go.th)', owner: 'สพร.',
+      url: 'https://data.go.th',
+      what: 'ชุดข้อมูลเปิดของหน่วยงานรัฐ รวมสถานพยาบาล', use: 'หาชุดข้อมูลประกอบแผนที่', access: 'ฟรี' },
+
+    // ---------- ร้านยาและคู่แข่ง ----------
+    { id: 'pertento', cat: 'comp', core: true, status: 'sec', ch: ['stp', 'omni'],
+      name: 'ระบบค้นหาข้อมูลสถานที่ด้านยา อย.', owner: 'สำนักงานคณะกรรมการอาหารและยา',
+      url: 'https://pertento.fda.moph.go.th/fda_search_drug/SEARCH_DRUG/FRM_SEARCH_LOCATION_DRUG_OPERATOR.aspx',
+      what: 'ใบอนุญาตขายยาที่ยังมีสถานะคงอยู่ ค้นตามจังหวัด ชื่อร้าน หรือเลขใบอนุญาต',
+      use: 'นับร้านยาคู่แข่งในพื้นที่ และค้นสาขาของเครือร้านยา',
+      how: ['เลือกจังหวัด เช่น ปทุมธานี (บังคับเลือกทุกครั้ง)', 'เว้นชื่อร้านว่าง หรือพิมพ์ชื่อเครือร้าน', 'คัดลอกผลไปนับตามอำเภอหรือตำบล'],
+      access: 'ฟรี ควรเปิดบนคอมพิวเตอร์', caveat: 'อย. ระบุว่าใช้ตรวจสอบเบื้องต้น บนมือถืออาจไม่แสดงรายละเอียด' },
+
+    { id: 'pharmap', cat: 'comp', status: 'sec', ch: ['stp', 'omni'],
+      name: 'แผนที่ร้านยาใกล้ฉัน อย.', owner: 'สำนักงานคณะกรรมการอาหารและยา',
+      url: 'https://fdaon-pharmap.fda.moph.go.th/store',
+      what: 'แผนที่ร้านยาที่ได้รับอนุญาตทั่วประเทศ',
+      use: 'วาดแผนที่คู่แข่งรอบทำเลที่สนใจ เช่น รอบ ม.รังสิต', access: 'ฟรี' },
+
+    { id: 'nhso', cat: 'comp', core: true, status: 'ok', ch: ['stp', 'tele'],
+      name: 'ค้นหาร้านยา 30 บาทรักษาทุกที่', owner: 'สปสช.',
+      url: 'https://wdrugapi.nhso.go.th/public/',
+      what: 'รายชื่อร้านยาที่ให้บริการเจ็บป่วยเล็กน้อย 32 กลุ่มอาการ กรองถึงระดับตำบล',
+      use: 'เทียบร้านที่เป็นหน่วยบริการ สปสช. กับร้านทั้งหมด เพื่อหาช่องว่างของตลาด',
+      how: ['เลือกประเภทหน่วยบริการเป็นร้านยา', 'เลือกจังหวัด อำเภอ ตำบล', 'นับจำนวนแล้วเทียบกับผลจาก อย.'],
+      access: 'ฟรี', caveat: 'บริการเริ่ม 3 ก.ย. 2567 ตั้งแต่ 1 ก.ย. 2568 จำกัดสิทธิ 2 ครั้งต่อเดือน' },
+
+    { id: 'accpharm', cat: 'comp', status: 'ok', ch: ['stp'],
+      name: 'รายชื่อร้านยาคุณภาพ (Acc-Pharm)', owner: 'สำนักงานรับรองร้านยาคุณภาพ สภาเภสัชกรรม',
+      url: 'https://www.acc-pharm.com/DrugStore',
+      what: 'ชื่อ ที่อยู่ จังหวัดของร้านยาคุณภาพ', use: 'หาคู่แข่งที่ใช้คุณภาพเป็นจุดขาย', access: 'ดูรายชื่อฟรี' },
+
+    { id: 'fdaopen', cat: 'comp', status: 'ok', ch: ['stp'],
+      name: 'ชุดข้อมูลเปิด รายชื่อผู้รับอนุญาตขายยา', owner: 'กองยา อย.',
+      url: 'https://catalog.fda.moph.go.th/dataset/drug-sale-licensee',
+      what: 'ไฟล์ CSV/XLSX รายชื่อผู้รับอนุญาต อัปเดต 28 พ.ค. 2569',
+      use: 'ฝึกนับและกรองข้อมูลใน Excel', access: 'ฟรี (Open Data)',
+      caveat: 'ไฟล์ ขย.1 มีเฉพาะกรุงเทพฯ ต่างจังหวัดใช้ระบบค้นหาหรือแผนที่แทน' },
+
+    { id: 'gmaps', cat: 'comp', status: 'ok', ch: ['dt', 'stp'],
+      name: 'Google Maps รีวิวร้านยา', owner: 'Google',
+      url: 'https://www.google.com/maps/search/%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%82%E0%B8%B2%E0%B8%A2%E0%B8%A2%E0%B8%B2+%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B8%A3%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B4%E0%B8%95',
+      what: 'ตำแหน่ง รีวิว เวลาเปิด รูปร้าน',
+      use: 'อ่านรีวิว 1–3 ดาวของคู่แข่ง เพื่อหาความเจ็บปวดของลูกค้า (Empathize)', access: 'ฟรี',
+      caveat: 'รีวิวมีอคติและอาจมีรีวิวปลอม' },
+
+    // ---------- ตลาดและธุรกิจ ----------
+    { id: 'dbd', cat: 'market', status: 'ok', ch: ['stp'],
+      name: 'DBD DataWarehouse+', owner: 'กรมพัฒนาธุรกิจการค้า',
+      url: 'https://datawarehouse.dbd.go.th',
+      what: 'รายได้ กำไร อัตราส่วนทางการเงินของนิติบุคคล และจำนวนธุรกิจรายพื้นที่',
+      use: 'เทียบรายได้และกำไรของเครือร้านยา 3 ปี',
+      how: ['ค้นชื่อนิติบุคคลของเครือร้านยา', 'เปิดงบการเงินย้อนหลัง', 'เทียบรายได้ กำไร และอัตรากำไร'],
+      access: 'ฟรี', caveat: 'eXta อยู่ในงบของ CP ALL ไม่มีงบแยก ระวังเว็บปลอมที่แอบอ้าง DBD' },
+
+    { id: 'krungsri', cat: 'market', status: 'sec', ch: ['stp'],
+      name: 'วิจัยกรุงศรี: แนวโน้มอุตสาหกรรมยา 2569–2571', owner: 'ธนาคารกรุงศรีอยุธยา',
+      url: 'https://www.krungsri.com/th/research/industry/industry-outlook/chemicals/phamaceuticals/io/io-pharmaceuticals-2026',
+      what: 'ขนาดตลาด แนวโน้ม โครงสร้างร้านยาเดี่ยวกับเครือข่าย',
+      use: 'ภาพรวมตลาดสำหรับตั้งโจทย์ STP', access: 'ฟรี' },
+
+    { id: 'krungsri2', cat: 'market', status: 'sec', ch: ['omni'],
+      name: 'วิจัยกรุงศรี: ค้าปลีกสมัยใหม่ 2569–2571', owner: 'ธนาคารกรุงศรีอยุธยา',
+      url: 'https://www.krungsri.com/th/research/industry/industry-outlook/wholesale-retail/modern-trade/io/modern-trade-2026',
+      what: 'การแข่งขันค้าปลีก โปรโมชัน และการขยายสาขา', use: 'อธิบายแรงกดดันจากเครือค้าปลีก', access: 'ฟรี' },
+
+    { id: 'arincare-outlook', cat: 'market', status: 'sec', ch: ['stp'],
+      name: 'Thailand Pharmacy Outlook 2025 (สรุปข่าว)', owner: 'Arincare / Posttoday',
+      url: 'https://www.posttoday.com/smart-life/744027',
+      what: 'ตลาดร้านยาปลีก 81,000 ล้านบาท ยอดขายสาขาเดิม 4 เดือนแรกปี 2569 หดตัว 11.2%',
+      use: 'หลักฐานว่าต้องแบ่งกลุ่มลูกค้าระดับพื้นที่', access: 'ข่าวฟรี รายงานเต็มต้องลงทะเบียน',
+      caveat: 'ข้อมูลจากร้านในเครือข่าย Arincare เท่านั้น ใช้คู่กับแหล่งอื่น' },
+
+    { id: 'set', cat: 'market', status: 'chk', ch: ['stp'],
+      name: 'ตลาดหลักทรัพย์ฯ (SET)', owner: 'ตลท.',
+      url: 'https://www.set.or.th',
+      what: 'รายงานประจำปี 56-1 One Report ของบริษัทค้าปลีกสุขภาพ', use: 'อ่านกลยุทธ์ร้านยาของบริษัทจดทะเบียน', access: 'ฟรี' },
+
+    // ---------- Social listening ----------
+    { id: 'trends', cat: 'social', core: true, status: 'ok', ch: ['dt', 'mt'],
+      name: 'Google Trends', owner: 'Google',
+      url: 'https://trends.google.com/trends/?geo=TH',
+      what: 'ดัชนีความสนใจในการค้นหาเทียบกัน แยกตามภูมิภาคและช่วงเวลา',
+      use: 'เทียบความสนใจ "ร้านขายยาใกล้ฉัน" "ส่งยาถึงบ้าน" "เภสัชกรออนไลน์" (ใช้ปุ่มในหน้าเครื่องมือ)',
+      access: 'ฟรี ไม่ต้องลงทะเบียน', caveat: 'ค่าเป็นดัชนี 0–100 ไม่ใช่จำนวนครั้ง คำที่ค้นน้อยจะไม่แสดงรายจังหวัด' },
+
+    { id: 'datareportal', cat: 'social', status: 'ok', ch: ['omni', 'mt'],
+      name: 'DataReportal: Digital 2026 Thailand', owner: 'DataReportal',
+      url: 'https://datareportal.com/reports/digital-2026-thailand',
+      what: 'ผู้ใช้อินเทอร์เน็ต 67.8 ล้านคน (94.7%) บัญชีโซเชียล 56.6 ล้านบัญชี',
+      use: 'เลือกช่องทางสื่อสารของร้านจากข้อมูลจริง', access: 'ฟรี' },
+
+    { id: 'adlib', cat: 'social', status: 'ok', ch: ['mt', 'law'],
+      name: 'Meta Ad Library', owner: 'Meta',
+      url: 'https://www.facebook.com/ads/library',
+      what: 'โฆษณาที่กำลังลงบน Facebook และ Instagram',
+      use: 'ดูโฆษณาของเครือร้านยา แล้ววิเคราะห์ positioning และประเด็น พ.ร.บ.ยา', access: 'ฟรี' },
+
+    { id: 'pantip', cat: 'social', status: 'ok', ch: ['dt'],
+      name: 'Pantip', owner: 'Pantip',
+      url: 'https://pantip.com/search?q=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%A2%E0%B8%B2+%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B8%97%E0%B8%AD%E0%B8%87',
+      what: 'กระทู้ประสบการณ์ผู้บริโภค', use: 'อ่านเสียงผู้ใช้จริงเรื่องร้านยาและบัตรทอง (Empathize)', access: 'ฟรี',
+      caveat: 'ไม่เป็นตัวแทนประชากร' },
+
+    { id: 'wisesight', cat: 'social', status: 'chk', ch: ['mt'],
+      name: 'Wisesight', owner: 'Wisesight',
+      url: 'https://wisesight.com',
+      what: 'เครื่องมือ social listening และรายงานเทรนด์', use: 'อ่านรายงานเทรนด์ฟรีประกอบการวิเคราะห์',
+      access: 'บางส่วนฟรี เครื่องมือเต็มต้องเสียเงิน' },
+
+    { id: 'mandala', cat: 'social', status: 'chk', ch: ['mt'],
+      name: 'Mandala Analytics', owner: 'Mandala',
+      url: 'https://mandalasystem.com',
+      what: 'เครื่องมือ social listening', use: 'เทียบกับ Wisesight', access: 'บางส่วนฟรี' },
+
+    { id: 'tiktokcc', cat: 'social', status: 'chk', ch: ['mt'],
+      name: 'TikTok Creative Center', owner: 'TikTok',
+      url: 'https://ads.tiktok.com/business/creativecenter',
+      what: 'แฮชแท็กและเพลงที่กำลังมาแรง', use: 'หาไอเดียคอนเทนต์ความรู้ด้านยา', access: 'ฟรี' },
+
+    { id: 'atp', cat: 'social', status: 'chk', ch: ['dt'],
+      name: 'AnswerThePublic', owner: 'AnswerThePublic',
+      url: 'https://answerthepublic.com',
+      what: 'คำถามที่คนค้นรอบคำหลัก', use: 'ระดมคำถามของผู้บริโภคเพื่อออกแบบคอนเทนต์', access: 'จำกัดจำนวนครั้งต่อวัน' },
+
+    { id: 'kwp', cat: 'social', status: 'chk', ch: ['mt'],
+      name: 'Google Keyword Planner', owner: 'Google',
+      url: 'https://ads.google.com',
+      what: 'ปริมาณการค้นหาโดยประมาณ', use: 'ดูปริมาณค้นหา "ร้านขายยา + ชื่ออำเภอ"', access: 'ต้องมีบัญชี Google Ads' },
+
+    { id: 'etda', cat: 'social', status: 'chk', ch: ['omni'],
+      name: 'ETDA พฤติกรรมผู้ใช้อินเทอร์เน็ต', owner: 'ETDA',
+      url: 'https://www.etda.or.th',
+      what: 'พฤติกรรมออนไลน์แยกตามรุ่นอายุ', use: 'เลือกช่องทางให้ตรงวัยของกลุ่มเป้าหมาย', access: 'ฟรี' },
+
+    { id: 'lineb', cat: 'social', status: 'chk', ch: ['mt', 'omni'],
+      name: 'LINE for Business', owner: 'LINE Thailand',
+      url: 'https://lineforbusiness.com/th',
+      what: 'บทความและคู่มือ LINE OA', use: 'ออกแบบ CRM ผ่าน LINE OA', access: 'ฟรี' },
+
+    // ---------- กฎหมาย ----------
+    { id: 'fdaann', cat: 'law', status: 'ok', ch: ['law', 'tele'],
+      name: 'ประกาศกองยา อย.', owner: 'กองยา อย.',
+      url: 'https://drug.fda.moph.go.th/announcement-administration',
+      what: 'ประกาศ Telepharmacy รายการโปรแกรมที่รับรอง ระเบียบการขายยา',
+      use: 'อ่านต้นฉบับประกาศก่อนอ้างอิง', access: 'ฟรี' },
+
+    { id: 'fdalaw', cat: 'law', status: 'ok', ch: ['law'],
+      name: 'กฎหมายยา อย.', owner: 'กองยา อย.',
+      url: 'https://drug.fda.moph.go.th/home-law-1/',
+      what: 'พ.ร.บ.ยา กฎกระทรวง ประกาศที่เกี่ยวข้อง', use: 'ตรวจข้อกำหนดการโฆษณาและการขายยา', access: 'ฟรี' },
+
+    { id: 'nhso32', cat: 'law', status: 'ok', ch: ['tele', 'stp'],
+      name: 'สปสช.: เจ็บป่วยเล็กน้อย 32 อาการ', owner: 'สปสช.',
+      url: 'https://www.nhso.go.th/news/4542',
+      what: 'รายการ 32 กลุ่มอาการที่รับบริการที่ร้านยาได้', use: 'ออกแบบบริการสำหรับผู้ใช้บัตรทอง', access: 'ฟรี' },
+
+    { id: 'council', cat: 'law', status: 'sec', ch: ['tele', 'law'],
+      name: 'สภาเภสัชกรรม', owner: 'สภาเภสัชกรรม',
+      url: 'https://www.pharmacycouncil.org',
+      what: 'มาตรฐาน Telepharmacy และมาตรฐานร้านยา', use: 'ตรวจเงื่อนไขวิชาชีพก่อนเปิดบริการทางไกล', access: 'ฟรี' },
+
+    { id: 'gazette', cat: 'law', status: 'sec', ch: ['law'],
+      name: 'ราชกิจจานุเบกษา', owner: 'สำนักเลขาธิการคณะรัฐมนตรี',
+      url: 'https://ratchakitcha.soc.go.th',
+      what: 'ต้นฉบับประกาศและกฎหมาย', use: 'ค้นประกาศฉบับเต็ม', access: 'ฟรี' },
+
+    { id: 'pdpc', cat: 'law', status: 'chk', ch: ['mt', 'law'],
+      name: 'สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (PDPC)', owner: 'PDPC',
+      url: 'https://www.pdpc.or.th',
+      what: 'แนวปฏิบัติ PDPA', use: 'ตรวจการใช้ข้อมูลสุขภาพใน CRM และ LINE OA', access: 'ฟรี' }
+  ],
+
+  // HDC province codes: ok = พบ URL ที่ใช้จริง · chk = ยังไม่ยืนยัน
+  hdc: [
+    { code: 'center', name: 'ระดับประเทศ', status: 'ok' },
+    { code: 'pte', name: 'ปทุมธานี (ที่ตั้ง ม.รังสิต)', status: 'sec' },
+    { code: 'nbi', name: 'นนทบุรี', status: 'ok' },
+    { code: 'bkk', name: 'กรุงเทพมหานคร', status: 'chk', note: 'ข้อมูลอาจไม่ครบ ศูนย์บริการสาธารณสุข กทม. ส่วนใหญ่ไม่อยู่ในระบบ สป.สธ.' },
+    { code: 'ska', name: 'สงขลา', status: 'ok' },
+    { code: 'kkn', name: 'ขอนแก่น', status: 'ok' },
+    { code: 'plk', name: 'พิษณุโลก', status: 'ok' },
+    { code: 'spb', name: 'สุพรรณบุรี', status: 'ok' },
+    { code: 'snk', name: 'สกลนคร', status: 'ok' },
+    { code: 'nst', name: 'นครศรีธรรมราช', status: 'ok' },
+    { code: 'cpm', name: 'ชัยภูมิ', status: 'ok' },
+    { code: 'pnb', name: 'เพชรบูรณ์', status: 'ok' },
+    { code: 'cpn', name: 'ชุมพร', status: 'ok' },
+    { code: 'cmi', name: 'เชียงใหม่', status: 'chk' },
+    { code: 'nma', name: 'นครราชสีมา', status: 'chk' }
+  ],
+
+  // โปรแกรม Telepharmacy ตามประกาศ อย. ปี 2569 (รายชื่อรวมจาก The Coverage 13 ต.ค. 2569)
+  telepharmacy: [
+    { name: 'Telehealth Thailand', by: 'สภาเภสัชกรรม', fit: 'ร้านยาอิสระ', list: 1, open: true },
+    { name: 'PharmCare Telepharmacy', by: 'บจ. ฟาร์มแคร์ กรุ๊ป', fit: 'ร้านอิสระและเครือข่าย', list: 1, open: true },
+    { name: 'AskMacy by Fascino', by: 'บจ. โปรฟาสซิโน', fit: 'เครือร้านของตนเอง', list: 1 },
+    { name: 'ALL PharmaSee', by: 'บมจ. ซีพี ออลล์', fit: 'เครือร้านของตนเอง', list: 1 },
+    { name: 'ร้านยากรุงเทพ', by: 'บจ. กรุงเทพดรักสโตร์', fit: 'เครือร้านของตนเอง', list: 1 },
+    { name: 'Shopee', by: 'บจ. ช้อปปี้ (ประเทศไทย)', fit: 'ร้านที่ขายบน marketplace', list: 1 },
+    { name: 'LINE MAN', by: 'บจ. ไลน์แมน (ประเทศไทย)', fit: 'ร้านที่ใช้เดลิเวอรี', list: 1 },
+    { name: 'BeDee', by: 'บจ. เฮลท์ พลาซ่า', fit: 'แพลตฟอร์มสุขภาพ', list: 2 },
+    { name: 'Watsons Telepharmacy', by: 'บจ. เซ็นทรัล วัตสัน', fit: 'เครือร้านของตนเอง', list: 2 },
+    { name: 'Arincare Telepharmacy', by: 'บจ. อรินแคร์', fit: 'ร้านยาอิสระ (เชื่อมกับ POS)', list: 2, open: true },
+    { name: 'Pure Pharma', by: 'บจ. บิ๊กซี ซูเปอร์เซ็นเตอร์', fit: 'เครือร้านของตนเอง', list: 2 },
+    { name: 'ICH', by: 'บจ. ไอแคร์ เฮลธ์', fit: 'ยังไม่ทราบรายละเอียด', list: 2 },
+    { name: 'TALafé By Phartech', by: 'บจ. สยามฟาร์เทค', fit: 'ยังไม่ทราบรายละเอียด', list: 3 },
+    { name: 'MedReFeel', by: 'บจ. เมดรีฟีล', fit: 'ยังไม่ทราบรายละเอียด', list: 3 },
+    { name: 'YM Telepharm', by: 'บจ. วายเอ็ม เทเลฟาร์ม', fit: 'ยังไม่ทราบรายละเอียด', list: 3 }
+  ],
+
+  // โปรแกรมร้านยา (ข้อมูลจากผู้พัฒนา)
+  software: [
+    { name: 'Arincare', url: 'https://arincare.com', type: 'คลาวด์', feat: 'สต๊อก ขายหน้าร้าน ประวัติคนไข้ รายงาน สั่งซื้อยา Telepharmacy ที่ อย. รับรอง', price: 'แผน Community Pharmacy ฟรี (สูงสุด 3 สาขา)', fit: 'ร้านอิสระที่อยากเริ่มเร็ว' },
+    { name: 'RanyaDee (ร้านยาดี)', url: 'https://qsofttech.com/ranyadee-app/', type: 'แอป', feat: 'รายงาน ขย.9–13 แท็กยาอันตรายและยาควบคุมพิเศษ วิเคราะห์ยอดขาย', price: 'มีทดลองใช้ฟรี', fit: 'ร้านเดี่ยว' },
+    { name: 'PharmaSys 5', url: 'https://www.platonicsoftware.com/phsys-unique', type: 'ติดตั้งในเครื่อง', feat: 'รายงาน 90 แบบ รวม ขย.9–13', price: 'ไม่เปิดเผย', fit: 'ร้านที่ต้องการรายงานละเอียด' },
+    { name: 'EasyMed App', url: 'https://app.easymed.in.th/', type: 'Windows ออฟไลน์', feat: 'POS สต๊อกแบบ FEFO รายงาน ขย.10/ขย.11', price: 'ผู้พัฒนาระบุว่าฟรี', fit: 'ร้านที่อินเทอร์เน็ตไม่เสถียร' },
+    { name: 'SML ERP (โมดูลร้านยา)', url: 'https://www.smlsoft.com/solutions/', type: 'ERP', feat: 'ทะเบียน อย. Lot วันหมดอายุ ขย.9–11 ประวัติแพ้ยา', price: 'ไม่ระบุ', fit: 'ร้านที่ทำบัญชีหรือขายส่งด้วย' },
+    { name: 'PharcareV2013', url: 'http://www.pharcare.net/', type: 'ติดตั้งในเครื่อง', feat: 'บันทึก Lot รายงาน ขย.9/10/11/13', price: 'ไม่ระบุ', fit: 'ควรตรวจว่ายังมีการดูแลระบบ', status: 'sec' },
+    { name: 'Drug POS (โอเพนซอร์ส)', url: 'https://github.com/korawit-t/drug-pos', type: 'ต้นแบบ', feat: 'FEFO เตือนแพ้ยาข้ามกลุ่ม เภสัชกรยืนยันด้วย PIN', price: 'ฟรี', fit: 'กรณีศึกษา Design Thinking มากกว่าใช้จริง' }
+  ],
+
+  numbers: [
+    { n: '81,000', unit: 'ล้านบาท', label: 'ตลาดร้านยาปลีก', src: 'Arincare ผ่าน Posttoday (มิ.ย. 2569)' },
+    { n: '−11.2%', unit: '', label: 'ยอดขายสาขาเดิม 4 เดือนแรกปี 2569', src: 'Arincare ผ่าน Posttoday' },
+    { n: '15', unit: 'โปรแกรม', label: 'Telepharmacy ที่ อย. ประกาศรายการ ปี 2569', src: 'The Coverage (ต.ค. 2569)' },
+    { n: '94.7%', unit: '', label: 'คนไทยใช้อินเทอร์เน็ต (67.8 ล้านคน)', src: 'DataReportal Digital 2026' }
+  ],
+
+  exercises: [
+    { t: 'เลือกทำเลในปทุมธานี', ch: 'stp', min: 10,
+      goal: 'หากลุ่มเป้าหมายจากภาระโรคและจำนวนคู่แข่ง',
+      steps: [['ดึงสัดส่วนผู้สูงอายุ 60+ ของอำเภอ', 'dopa'], ['ดึงจำนวนผู้ป่วยเบาหวานและความดัน', 'hdc'], ['นับร้านยาในอำเภอ', 'pertento'], ['กรอกในเครื่องคิดเลขทำเล แล้วเลือก segment 1 กลุ่ม', null]] },
+    { t: 'แผนที่คู่แข่งและจุดยืน', ch: 'stp', min: 8,
+      goal: 'เขียน positioning statement ที่ต่างจากคู่แข่งรอบ ม.รังสิต',
+      steps: [['หาร้านในรัศมี 2 กม.', 'pharmap'], ['ทำเครื่องหมายร้านที่เป็นหน่วยบริการ สปสช.', 'nhso'], ['ทำเครื่องหมายร้านยาคุณภาพ', 'accpharm'], ['วาดแผนที่ตำแหน่ง แล้วเขียน positioning 1 ประโยค', null]] },
+    { t: 'เสียงของผู้บริโภค', ch: 'dt', min: 7,
+      goal: 'สรุปมุมมองผู้ใช้ 1 ประโยคจากข้อมูลจริง',
+      steps: [['เทียบคำค้น 3 คำ', 'trends'], ['อ่านรีวิว 1–3 ดาวของคู่แข่ง', 'gmaps'], ['เขียน "[ผู้ใช้] ต้องการ [สิ่งที่ต้องการ] เพราะ [insight]"', null]] },
+    { t: 'เลือกแพลตฟอร์ม Telepharmacy', ch: 'tele', min: 8,
+      goal: 'ออกแบบ customer journey 4 จุดสัมผัสสำหรับร้านอิสระ',
+      steps: [['เลือกแพลตฟอร์มเปิด 1 ตัวจากตาราง Telepharmacy', null], ['ใช้สถิติดิจิทัลยืนยันช่องทาง', 'datareportal'], ['วาด journey: หน้าร้าน → LINE OA → Telepharmacy → ส่งยา', null], ['ระบุประเด็น PDPA 1 ข้อ', 'pdpc']] },
+    { t: 'อ่านงบคู่แข่ง', ch: 'stp', min: 7,
+      goal: 'อธิบายว่าทำไมร้านอิสระไม่ควรแข่งราคา',
+      steps: [['ค้นงบเครือร้านยา 1 ราย ย้อนหลัง 3 ปี', 'dbd'], ['เทียบกับแนวโน้มตลาด', 'arincare-outlook'], ['อภิปราย: ร้านอิสระควรสร้างความต่างตรงไหน', null]] }
+  ]
+};

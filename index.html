@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pharmacy Info Hub</title>
+<meta name="description" content="แหล่งข้อมูลจริงสำหรับวิเคราะห์กลยุทธ์ร้านยาชุมชนไทย ประกอบรายวิชา PHA 473">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/mascot.webp">
+</head>
+<body>
+<a class="skip" href="#main">ข้ามไปเนื้อหา</a>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#home"><span class="rx">℞</span><span><b>Pharmacy Info Hub</b><small>PHA 473 · กลยุทธ์การแข่งขันของร้านยาชุมชน</small></span></a>
+    <nav class="tabs" aria-label="เมนู">
+      <a href="#home" data-tab="home">หน้าแรก</a>
+      <a href="#sources" data-tab="sources">คลังข้อมูล</a>
+      <a href="#tools" data-tab="tools">เครื่องมือ</a>
+      <a href="#lab" data-tab="lab">แบบฝึก</a>
+      <a href="#notes" data-tab="notes">ข้อควรรู้</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===== HOME ===== -->
+<section class="view" id="v-home">
+  <div class="hero">
+    <div class="hero-txt">
+      <p class="eyebrow">ข้อมูลจริง ณ <span data-asof></span></p>
+      <h1>เปิดข้อมูลจริง ก่อนตัดสินใจกลยุทธ์ร้านยา</h1>
+      <p class="lead">ภาระโรคของพื้นที่ จำนวนคู่แข่ง เสียงของผู้บริโภค และช่องทางดิจิทัล รวบไว้ที่เดียว เพื่อใช้ทำ STP, Design Thinking, MarTech, Omni Channel และ Telepharmacy กับร้านยาจริง</p>
+      <div class="cta"><a class="btn" href="#lab">เริ่มแบบฝึกในห้อง</a><a class="btn ghost" href="#sources">ดูคลังข้อมูลทั้งหมด</a></div>
+    </div>
+    <img class="hero-img" src="assets/mascot.webp" alt="อ.หมี">
+  </div>
+
+  <h2 class="h2">เริ่มจาก 4 แหล่งหลัก</h2>
+  <p class="sub">ฟรีทั้งหมด ไม่ต้องลงทะเบียน ใช้ตอบคำถาม "พื้นที่นี้มีใคร ป่วยอะไร และมีคู่แข่งกี่ร้าน"</p>
+  <div class="grid4" id="coreList"></div>
+
+  <h2 class="h2">ตัวเลขตั้งโจทย์</h2>
+  <div class="grid4" id="numbers"></div>
+
+  <h2 class="h2">จากข้อมูล สู่กลยุทธ์</h2>
+  <div class="flow" id="flowHome">
+    <div class="node"><span class="k">1</span><b>ดูภาระโรค</b><small>HDC · DOPA</small></div>
+    <div class="arr" aria-hidden="true">→</div>
+    <div class="node"><span class="k">2</span><b>นับคู่แข่ง</b><small>อย. · สปสช. · ร้านยาคุณภาพ</small></div>
+    <div class="arr" aria-hidden="true">→</div>
+    <div class="node"><span class="k">3</span><b>ฟังลูกค้า</b><small>Google Trends · รีวิว · Pantip</small></div>
+    <div class="arr" aria-hidden="true">→</div>
+    <div class="node hi"><span class="k">4</span><b>เลือกกลุ่มและจุดยืน</b><small>STP</small></div>
+    <div class="arr" aria-hidden="true">→</div>
+    <div class="node out"><span class="k">5</span><b>เลือกเครื่องมือส่งมอบ</b><small>POS · LINE OA · Telepharmacy</small></div>
+  </div>
+</section>
+
+<!-- ===== SOURCES ===== -->
+<section class="view" id="v-sources" hidden>
+  <h1 class="h1">คลังแหล่งข้อมูล</h1>
+  <p class="sub">กรองตามหมวด ตามบทที่เรียน หรือพิมพ์ค้นหา สถานะบอกว่าตรวจแล้วแค่ไหน</p>
+  <div class="filters">
+    <label class="search"><span class="sr">ค้นหา</span><input id="q" type="search" placeholder="ค้นหา เช่น ผู้สูงอายุ, ร้านยา, LINE"></label>
+    <div class="chips" id="catChips" role="group" aria-label="หมวด"></div>
+    <div class="chips" id="chChips" role="group" aria-label="บทที่เรียน"></div>
+  </div>
+  <div class="legend">
+    <span class="st ok">ยืนยันแล้ว</span><span class="st sec">ยืนยันจากแหล่งรอง</span><span class="st chk">ควรเปิดทดสอบก่อนใช้</span>
+  </div>
+  <p class="count" id="srcCount"></p>
+  <div class="cards" id="srcCards"></div>
+</section>
+
+<!-- ===== TOOLS ===== -->
+<section class="view" id="v-tools" hidden>
+  <h1 class="h1">เครื่องมือ</h1>
+
+  <div class="tool">
+    <h2>สร้างลิงก์ HDC รายจังหวัด</h2>
+    <p class="sub">HDC ใช้รูปแบบ <code>hdc.moph.go.th/<b>รหัสจังหวัด</b>/public/main</code> เลือกจังหวัดหรือพิมพ์รหัส 3 ตัวอักษรเอง</p>
+    <div class="row">
+      <label class="fld"><span>จังหวัด</span><select id="hdcSel"></select></label>
+      <label class="fld"><span>หรือพิมพ์รหัส</span><input id="hdcCode" maxlength="10" placeholder="เช่น pte" autocomplete="off"></label>
+      <a class="btn" id="hdcGo" target="_blank" rel="noopener">เปิด HDC</a>
+    </div>
+    <p class="mono" id="hdcUrl"></p>
+    <p class="note" id="hdcNote"></p>
+  </div>
+
+  <div class="tool">
+    <h2>Google Trends ในคลิกเดียว</h2>
+    <p class="sub">ใส่คำค้นได้สูงสุด 5 คำ คั่นด้วยจุลภาค ระบบจะเปิดการเปรียบเทียบในประเทศไทย</p>
+    <div class="row">
+      <label class="fld grow"><span>คำค้น</span><input id="trTerms" value="ร้านขายยาใกล้ฉัน, ส่งยาถึงบ้าน, เภสัชกรออนไลน์"></label>
+      <label class="fld"><span>ช่วงเวลา</span><select id="trTime"><option value="today 12-m">12 เดือน</option><option value="today 5-y" selected>5 ปี</option><option value="all">ตั้งแต่ 2004</option></select></label>
+      <a class="btn" id="trGo" target="_blank" rel="noopener">เปิด Trends</a>
+    </div>
+    <div class="chips" id="trPresets"></div>
+  </div>
+
+  <div class="tool">
+    <h2>เครื่องคิดเลขทำเล</h2>
+    <p class="sub">กรอกตัวเลขจาก DOPA, HDC และ อย. ของอำเภอที่สนใจ ระบบคำนวณให้ ตัวเลขเก็บไว้ในเครื่องนี้เท่านั้น</p>
+    <div class="calc">
+      <label class="fld"><span>ชื่อพื้นที่</span><input id="cArea" placeholder="เช่น อ.ธัญบุรี"></label>
+      <label class="fld"><span>ประชากรทั้งหมด (DOPA)</span><input id="cPop" type="number" min="0" inputmode="numeric"></label>
+      <label class="fld"><span>ประชากรอายุ 60+ (DOPA)</span><input id="cOld" type="number" min="0" inputmode="numeric"></label>
+      <label class="fld"><span>ผู้ป่วยเบาหวาน (HDC)</span><input id="cDm" type="number" min="0" inputmode="numeric"></label>
+      <label class="fld"><span>ผู้ป่วยความดัน (HDC)</span><input id="cHt" type="number" min="0" inputmode="numeric"></label>
+      <label class="fld"><span>ร้านยาทั้งหมด (อย.)</span><input id="cRx" type="number" min="0" inputmode="numeric"></label>
+      <label class="fld"><span>ร้านยาบริการ สปสช.</span><input id="cNh" type="number" min="0" inputmode="numeric"></label>
+    </div>
+    <div class="grid4 res" id="calcOut"></div>
+    <p class="note">ผู้ป่วยเบาหวานและความดันซ้อนกันได้ ตัวเลข NCD ต่อร้านจึงเป็นค่าประมาณสูงสุด ใช้เทียบระหว่างพื้นที่ ไม่ใช่ขนาดตลาดจริง</p>
+  </div>
+
+  <div class="tool">
+    <h2>Telepharmacy: 15 โปรแกรมตามประกาศ อย. ปี 2569</h2>
+    <p class="sub">ร้านยาอิสระควรดูแพลตฟอร์มเปิดก่อน แพลตฟอร์มของเครือร้านใช้เฉพาะสาขาของตนเอง</p>
+    <div class="chips" id="teleChips"></div>
+    <div class="tw"><table id="teleTbl"><thead><tr><th>โปรแกรม</th><th>ผู้ให้บริการ</th><th>เหมาะกับ</th><th>ประกาศฉบับที่</th></tr></thead><tbody></tbody></table></div>
+    <p class="note">รายชื่อรวมอ้างอิงจาก The Coverage (13 ต.ค. 2569) ที่สรุปจากประกาศ อย. ฉบับที่ 1–3 ควรตรวจกับ <a href="https://drug.fda.moph.go.th/announcement-administration" target="_blank" rel="noopener">ประกาศต้นฉบับของกองยา</a> ก่อนอ้างอิง</p>
+  </div>
+
+  <div class="tool">
+    <h2>โปรแกรมร้านยา</h2>
+    <p class="sub">ข้อมูลฟีเจอร์และราคาจากเว็บไซต์ผู้พัฒนา ไม่ใช่การรับรองคุณภาพ</p>
+    <div class="tw"><table id="softTbl"><thead><tr><th>โปรแกรม</th><th>รูปแบบ</th><th>ฟีเจอร์เด่น</th><th>ราคา</th><th>เหมาะกับ</th></tr></thead><tbody></tbody></table></div>
+    <p class="note">เกณฑ์ที่ควรถามผู้ขาย: ออกรายงาน ขย.9–13 ได้ไหม · เตือนยาหมดอายุและแพ้ยาไหม · เชื่อมระบบ สปสช. ได้ไหม · เชื่อม LINE OA หรือ Telepharmacy ได้ไหม · เก็บข้อมูลผู้ป่วยตาม PDPA อย่างไร</p>
+  </div>
+</section>
+
+<!-- ===== LAB ===== -->
+<section class="view" id="v-lab" hidden>
+  <h1 class="h1">แบบฝึกในห้อง</h1>
+  <p class="sub">ทำเป็นกลุ่ม 1 เครื่องต่อกลุ่ม แต่ละแบบฝึกใช้เวลา 7–10 นาที กดชื่อแหล่งข้อมูลเพื่อเปิดได้ทันที</p>
+  <div id="labList"></div>
+</section>
+
+<!-- ===== NOTES ===== -->
+<section class="view" id="v-notes" hidden>
+  <h1 class="h1">ข้อควรรู้ก่อนใช้ข้อมูล</h1>
+  <div class="grid2">
+    <div class="card note-card"><h3>ข้อมูลรัฐนับเฉพาะคนในระบบ</h3><p>HDC นับผู้ใช้บริการภาครัฐ DOPA นับผู้มีชื่อในทะเบียนบ้าน เขตเมืองอย่างรังสิตมีประชากรแฝงและผู้รักษาเอกชนจำนวนมาก ตัวเลขจริงจึงอาจสูงกว่าที่เห็น</p></div>
+    <div class="card note-card"><h3>ข้อมูลธุรกิจมาจากผู้ขาย</h3><p>ตัวเลขตลาดของ Arincare มาจากร้านในเครือข่ายของบริษัทเอง ควรใช้คู่กับวิจัยกรุงศรีหรือแหล่งอื่น</p></div>
+    <div class="card note-card"><h3>Google Trends ไม่ใช่จำนวนครั้ง</h3><p>ค่า 0–100 เป็นดัชนีเทียบกันภายในการค้นหาเดียว คำที่ค้นน้อยจะไม่แสดงรายจังหวัด</p></div>
+    <div class="card note-card"><h3>เว็บรัฐโหลดช้าเมื่อเข้าพร้อมกัน</h3><p>ใช้ 1 เครื่องต่อกลุ่ม ระบบค้นหาของ อย. ควรเปิดบนคอมพิวเตอร์ เพราะมือถืออาจไม่แสดงรายละเอียด</p></div>
+    <div class="card note-card"><h3>ข้อมูลผู้ป่วยต้องระวัง</h3><p>แบบฝึกใช้ข้อมูลรวมระดับพื้นที่เท่านั้น ห้ามบันทึกข้อมูลที่ระบุตัวผู้ป่วยลงใบงาน</p></div>
+    <div class="card note-card"><h3>ข้อมูลเปลี่ยนได้</h3><p>รายการโปรแกรม Telepharmacy เงื่อนไข สปสช. และตัวเลขตลาด เป็นข้อมูล ณ <span data-asof></span> ควรตรวจซ้ำก่อนนำไปใช้จริง</p></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <img src="assets/mascot.webp" alt="" width="56" height="56">
+    <div>
+      <b>ดร.ภก.วิรุณ เวชศิริ</b> · เอกสารประกอบการสอน PHA 473 การบริหารงานเภสัชกรรมชุมชน
+      <small>ข้อมูลรวบรวม ณ <span data-asof></span> · ลิงก์ทั้งหมดเป็นของหน่วยงานเจ้าของข้อมูล เว็บนี้ไม่ได้เก็บข้อมูลของผู้ใช้</small>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
